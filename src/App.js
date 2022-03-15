@@ -6,14 +6,15 @@ import { Canvas, useLoader } from "@react-three/fiber";
 import { Home } from "./components/home/Home";
 import { SignUp } from "./components/signup/Signup";
 import { Login } from "./components/login/Login";
-import { Scene } from "./components/scene/Scene";
+import { JwstScene } from "./components/jwst-visualization/scene/JwstScene";
+import { WebGL } from "./components/webgl-visualization/WebGL";
 
 import "./App.css";
 
 function App() {
   const Jwst = (
     <Canvas>
-      <Scene />
+      <JwstScene />
     </Canvas>
   );
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="sign-up" element={<SignUp />} />
           <Route path="login" element={<Login />} />
           <Route path="jwst" element={Jwst} />
+          <Route path="webgl" element={<WebGL />} />
         </Routes>
       </Suspense>
     </div>

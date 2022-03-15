@@ -25,6 +25,11 @@ export function Navbar() {
           JWST
         </Link>
       </nav>
+      <nav className="nav">
+        <Link className="link" to="/webgl">
+          WebGL Practice
+        </Link>
+      </nav>
     </div>
   );
 }

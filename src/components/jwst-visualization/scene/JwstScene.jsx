@@ -3,11 +3,11 @@ import { useLoader, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Stage } from "@react-three/drei";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
-import { Model } from "../jwst-model/Model";
+import { Model } from "../model/Model";
 
 import "./scene.css";
 
-export function Scene(props) {
+export function JwstScene(props) {
   const [colorMap, normalMap, roughnessMap] = useLoader(TextureLoader, [
     "/jwst-model/textures/Material.007_baseColor.jpeg",
     "/jwst-model/textures/Material.007_normal.jpeg",
@@ -21,15 +21,17 @@ export function Scene(props) {
   });
 
   return (
-    <Stage intensity={2}>
-      <OrbitControls />
-      <mesh ref={myMesh}>
-        <Model
-          map={colorMap}
-          normalMap={normalMap}
-          roughnessMap={roughnessMap}
-        />
-      </mesh>
-    </Stage>
+    <>
+      <Stage intensity={2}>
+        <OrbitControls />
+        <mesh ref={myMesh}>
+          <Model
+            map={colorMap}
+            normalMap={normalMap}
+            roughnessMap={roughnessMap}
+          />
+        </mesh>
+      </Stage>
+    </>
   );
 }
