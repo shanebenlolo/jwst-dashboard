@@ -1,5 +1,6 @@
 import { initShaders } from "./initShaders";
 import { initBuffers } from "./initBuffers";
+import { initTextures } from "./initTextures";
 import { drawScene } from "./drawScene";
 
 const initWebGL = (canvasRef) => {
@@ -11,13 +12,14 @@ const initWebGL = (canvasRef) => {
   const shaderProgram = initShaders(gl);
 
   // Collect all the info needed to use the shader program.
-  // Look up which attribute our shader program is using
-  // for aVertexPosition and look up uniform locations.
+  // Look up which attributes our shader program is using
+  // (such as aVertexPosition), and look up uniform locations.
   const programInfo = {
     program: shaderProgram,
     attribLocations: {
       vertexPosition: gl.getAttribLocation(shaderProgram, "aVertexPosition"),
-      vertexColor: gl.getAttribLocation(shaderProgram, "aVertexColor"),
+      vertexNormal: gl.getAttribLocation(shaderProgram, "aVertexNormal"),
+      textureCoord: gl.getAttribLocation(shaderProgram, "aTextureCoord"),
     },
     uniformLocations: {
       projectionMatrix: gl.getUniformLocation(
@@ -25,22 +27,22 @@ const initWebGL = (canvasRef) => {
         "uProjectionMatrix"
       ),
       modelViewMatrix: gl.getUniformLocation(shaderProgram, "uModelViewMatrix"),
+      normalMatrix: gl.getUniformLocation(shaderProgram, "uNormalMatrix"),
+      uSampler: gl.getUniformLocation(shaderProgram, "uSampler"),
     },
   };
 
-  // Call the routine that builds all the
-  // objects we'll be drawing.
   const buffers = initBuffers(gl);
-
-  var then = 0;
+  const texture = initTextures(gl, "/shape-textures/cubetexture1.png");
 
   // Draw the scene repeatedly
+  var then = 0;
   function render(now) {
     now *= 0.0005; // convert to seconds
     const deltaTime = now - then;
     then = now;
 
-    drawScene(gl, programInfo, buffers, deltaTime);
+    drawScene(gl, programInfo, buffers, texture, deltaTime);
 
     requestAnimationFrame(render);
   }

@@ -1,4 +1,4 @@
-import { cubeShaders } from "../shapesApi/cube/shaders/cubeShaders";
+import { cubeShaders } from "../shapesApi/cube/cubeShaders";
 
 // Initialize a shader program, so WebGL knows how to draw our data
 const initShaders = (gl) => {

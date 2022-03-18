@@ -1,38 +1,24 @@
-import { cube } from "../shapesApi/cube/buffers/cubeBuffers";
+import { cube } from "../shapesApi/cube/cubeBuffers";
 
 // Initialize the buffers we'll need. For this demo, we just
 // have one object -- a simple two-dimensional square.
 function initBuffers(gl) {
   // POSITION BUFFER
-  // Create a buffer for the square's positions.
   const positionBuffer = gl.createBuffer();
-
-  // Select the positionBuffer as the one to apply buffer
-  // operations to from here out.
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-  // Now create an array of positions for the cube.
-
-  // Now pass the list of positions into WebGL to build the
-  // shape. We do this by creating a Float32Array from the
-  // JavaScript array, then use it to fill the current buffer.
   gl.bufferData(
     gl.ARRAY_BUFFER,
     new Float32Array(cube.positionBuffer),
     gl.STATIC_DRAW
   );
 
-  // Convert the array of colors into a table for all the vertices.
+  // COLOR BUFFER
   var colors = [];
-
   for (var j = 0; j < cube.colorBuffer.length; j++) {
     const c = cube.colorBuffer[j];
-
-    // assign rgba value at every vertex
-    // Repeat each color four times for the four vertices of the face
+    // assign rgba value at every corner (vertex) of each cube face
     colors = colors.concat(c, c, c, c);
   }
-
   const colorBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
@@ -40,18 +26,37 @@ function initBuffers(gl) {
   // INDEX BUFFER
   const indexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-
-  // Now send the element array to GL
   gl.bufferData(
     gl.ELEMENT_ARRAY_BUFFER,
     new Uint16Array(cube.indexBuffer),
     gl.STATIC_DRAW
   );
 
+  // TEXTURE BUFFER
+  const textureBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, textureBuffer);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array(cube.textureBuffer),
+    gl.STATIC_DRAW
+  );
+
+  // LIGHTING BUFFER
+  const normalBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array(cube.vertexNormals),
+    gl.STATIC_DRAW
+  );
+
   return {
+    color: colorBuffer, //this is current not being shown due to contents of glsl shaders
+
     position: positionBuffer,
-    color: colorBuffer,
+    normal: normalBuffer,
     indices: indexBuffer,
+    textureCoord: textureBuffer,
   };
 }
 
