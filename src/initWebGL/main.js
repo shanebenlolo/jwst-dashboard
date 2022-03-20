@@ -35,18 +35,20 @@ const initWebGL = (canvasRef) => {
   const buffers = initBuffers(gl);
   const texture = initTextures(gl, "/shape-textures/cubetexture1.png");
 
-  // Draw the scene repeatedly
-  var then = 0;
-  function render(now) {
-    now *= 0.0005; // convert to seconds
-    const deltaTime = now - then;
-    then = now;
+  // // Draw the scene repeatedly
+  // var then = 0;
+  // function render(now) {
+  //   now *= 0.0005; // convert to seconds
+  //   const deltaTime = now - then;
+  //   then = now;
 
-    drawScene(gl, programInfo, buffers, texture, deltaTime);
+  //   drawScene(gl, programInfo, buffers, texture, deltaTime);
 
-    requestAnimationFrame(render);
-  }
-  requestAnimationFrame(render);
+  //   requestAnimationFrame(render);
+  // }
+  // requestAnimationFrame(render);
+
+  return [gl, programInfo, buffers, texture];
 };
 
 export { initWebGL };
