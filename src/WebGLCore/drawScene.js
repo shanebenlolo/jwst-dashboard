@@ -61,11 +61,11 @@ const drawScene = (gl, programInfo, buffers, texture, deltaTime) => {
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute
   {
-    const numComponents = 3;
-    const type = gl.FLOAT;
-    const normalize = false;
-    const stride = 0;
-    const offset = 0;
+    const numComponents = 3; // pull out 2 values per iteration
+    const type = gl.FLOAT; // the data in the buffer is 32bit floats
+    const normalize = false; // don't normalize
+    const stride = 0; // how many bytes to get from one set of values to the next
+    const offset = 0; // how many bytes inside the buffer to start from
     gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
     gl.vertexAttribPointer(
       programInfo.attribLocations.vertexPosition,
@@ -124,18 +124,26 @@ const drawScene = (gl, programInfo, buffers, texture, deltaTime) => {
   // Tell WebGL to use our program when drawing
   gl.useProgram(programInfo.program);
 
-  // Set the shader uniforms
+  // SET UNIFORMS
+
+  // this sets uProjectionMatrix in the vertex shader
+  // to be equal to the projection matrix. Don't worry
+  // about the "false", that is required to be false, not sure
+  // why that needs to be passed (because it's bad design)
   gl.uniformMatrix4fv(
     programInfo.uniformLocations.projectionMatrix,
     false,
     projectionMatrix
   );
+
+  // uModelViewMatrix
   gl.uniformMatrix4fv(
     programInfo.uniformLocations.modelViewMatrix,
     false,
     modelViewMatrix
   );
-  // lighting
+
+  // uNormalMatrix, this is for lighting
   gl.uniformMatrix4fv(
     programInfo.uniformLocations.normalMatrix,
     false,

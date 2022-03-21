@@ -5,6 +5,11 @@ import { cube } from "../shapesApi/cube/cubeBuffers";
 function initBuffers(gl) {
   // POSITION BUFFER
   const positionBuffer = gl.createBuffer();
+
+  // now that the position buffer has been created, all gl.buffer operations will refer
+  // to modifying the positionBuffer until colorBuffer is created. This is an example of
+  // modifying webgl's "state" like Cherno discussed
+
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
   gl.bufferData(
     gl.ARRAY_BUFFER,
